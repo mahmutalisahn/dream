@@ -1,0 +1,13 @@
+version: '3'
+services:
+  postgre:
+    image: postgis/postgis:12-3.1-alpine
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    shm_size: 1g
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data 
