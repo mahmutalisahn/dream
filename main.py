@@ -5,7 +5,7 @@ from starlette.requests import Request
 from starlette.responses import Response
 
 from lop.v1.router.user_router import UserRouter
-
+from lop.v1.router.calendar_router import CalendarRouter
 
 VERSION = "1.0.6"
 
@@ -25,7 +25,9 @@ sub_app = FastAPI(
 sub_app.include_router(
     UserRouter().get_router(), prefix="/user_service", tags=["User"]
 )
-
+sub_app.include_router(
+    CalendarRouter().get_router(), prefix="/calendar_router", tags=["Calendar"]
+)
 app.mount("/v1/editor_backend", sub_app)
 
 

@@ -1,4 +1,3 @@
-
 from middlewares import db_session_middleware
 from models.user import UserPydantic
 from lop.v1.repositories.user_repository import UserRepository
@@ -14,10 +13,8 @@ class UserService :
         data : UserPydantic,
         session : db_session_middleware
     ):
-
         user_id = self.user_repository.create_user(data, session)
         return user_id
-
 
     def get_user_by_username(
         self, 
@@ -35,3 +32,4 @@ class UserService :
     ):
         result = self.user_repository.check(username, password, session)
         return result
+

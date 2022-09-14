@@ -21,14 +21,12 @@ class User(Base):
     surname : str = Column(String)
     phone : int = Column(Integer)
 
-#    def __repr__(self) -> str:
-#        return json.dumps(self.dict())
-
-#    def __str__(self) -> str:
-#        return json.dumps(self.dict())
-
-#    def dict(self) -> dict:
-#        return OrmHelper.toDict(self)
+    def __repr__(self) -> str:
+        return json.dumps(self.dict())
+    def __str__(self) -> str:
+        return json.dumps(self.dict())
+    def dict(self) -> dict:
+        return OrmHelper.toDict(self)
 
 class UserPydantic(BaseModel):
 

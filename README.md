@@ -1,7 +1,11 @@
-# polur
+Calendar :
 
-Hello,
+    We can see which days it is open.
 
-This is my own social media project's backend service. 
+    We can see the working time differances between days.
 
-Details of this social media will be announced later, I am working on it now.
+TimeSlots :
+
+    Works with calendar, and shows us to which hours are working hours.
+
+    
