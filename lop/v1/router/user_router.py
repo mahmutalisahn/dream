@@ -19,8 +19,6 @@ class UserRouter(GenericRouter):
         self.get_router().get("/{user_name}/{password}")(self.check)        
         self.get_router().post("/")(self.create_user)
 
-
-
     def create_user(
         self, 
         data : UserPydantic = Depends(),
@@ -34,7 +32,7 @@ class UserRouter(GenericRouter):
         username : str,
         session : db_session_middleware = Depends()
     ):
-        user = self.user_service.get_user_by_id(username, session)
+        user = self.user_service.get_user_by_username(username, session)
         return user
     
     def check(
@@ -45,5 +43,3 @@ class UserRouter(GenericRouter):
     ):
         result = self.user_service.check(username, password, session)
         return result
-
-    

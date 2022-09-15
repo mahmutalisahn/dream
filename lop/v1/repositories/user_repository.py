@@ -5,8 +5,6 @@ from middlewares import db_session_middleware
 import uuid
 
 class UserRepository:
-    def __init__(self) -> None:
-        pass
 
     def create_user(
         self,

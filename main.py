@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from starlette.requests import Request
 from starlette.responses import Response
+from lop.v1.router.booking_router import BookingRouter
 
 from lop.v1.router.user_router import UserRouter
 from lop.v1.router.calendar_router import CalendarRouter
@@ -26,8 +27,12 @@ sub_app.include_router(
     UserRouter().get_router(), prefix="/user_service", tags=["User"]
 )
 sub_app.include_router(
-    CalendarRouter().get_router(), prefix="/calendar_router", tags=["Calendar"]
+    CalendarRouter().get_router(), prefix="/calendar_service", tags=["Calendar"]
 )
+sub_app.include_router(
+    BookingRouter().get_router(), prefix="/booking_service", tags=["Booking"]
+)
+
 app.mount("/v1/editor_backend", sub_app)
 
 

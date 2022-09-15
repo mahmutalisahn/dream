@@ -21,7 +21,7 @@ class UserService :
         username : UserPydantic,
         session : db_session_middleware
     ):
-        user = self.user_repository.get_user_by_id(username, session)
+        user = self.user_repository.get_user_by_username(username, session)
         return user
     
     def check(

@@ -1,4 +1,3 @@
-from unittest import result
 from middlewares import db_session_middleware
 from models.calendar import CalendarPydantic
 from ..repositories.calendar_repository import  CalendarRepository
