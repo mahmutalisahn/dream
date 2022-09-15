@@ -19,6 +19,8 @@ class BookingRepository:
         booking.customer_phone = data.customer_phone
         booking.start_book = data.start_book
         booking.end_book = data.end_book
+        booking.date = data.date
+        booking.status = 0
 
         session.add(booking)
         session.commit()

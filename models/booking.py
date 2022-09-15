@@ -1,10 +1,11 @@
+from code import interact
 import json
 from typing import Any, Dict, Optional
 from pydantic import BaseModel
-from sqlalchemy import Column, String, Time
+from sqlalchemy import Column, String, Time, Date, Integer
 from base import Base
 from helper import OrmHelper
-from datetime import time 
+from datetime import time, date
 
 JSONObject = Dict[str, Any]
 
@@ -20,6 +21,8 @@ class Booking(Base):
     customer_phone : str = Column(String)
     start_book : time = Column(Time)
     end_book : time = Column(Time)
+    date : date = Column(Date)
+    status : int = Column(Integer)
 
     def __repr__(self) -> str:
         return json.dumps(self.dict())
@@ -36,6 +39,7 @@ class BookingPydantic(BaseModel):
     customer_phone : Optional[str]
     start_book : Optional[time]
     end_book : Optional[time]
-    
+    date : Optional[date]
+
     class Config:
         orm_mode = True
