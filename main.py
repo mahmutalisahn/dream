@@ -14,13 +14,13 @@ VERSION = "1.0.6"
 app = FastAPI(
     title="DREAM BACKEND",
     version=VERSION,
-    description="Backend service developed using fastapi",
+    description="This is a backend service of LAP-CALENDAR",
 )
 
 sub_app = FastAPI(
     title="DREAM BACKEND",
     version=VERSION,
-    description="Backend service developed using fastapi",
+    description="This is a backend service of LAP-CALENDAR",
     docs_url="/docs",
     openapi_url="/openapi.json",
 )
