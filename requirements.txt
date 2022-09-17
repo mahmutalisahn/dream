@@ -1,0 +1,11 @@
+fastapi
+sqlalchemy
+pydantic
+starlette
+uvicorn
+psycopg2-binary
+werkzeug
+python-dotenv
+waitress
+Paste
+openpyxl==3.0.6

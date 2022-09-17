@@ -14,7 +14,7 @@ JSONObject = Dict[str, time, Any]
 
 class TimeSlots(Base):
     __tablename__ = "time_slots"
-    __table_args__ = {"schema": "public"}
+    __table_args__ = {"schema": "lapcalendar"}
     service_id: str = Column(String, primary_key=True)
     start_time : time = Column(Time)
     end_time : time = Column(Time)

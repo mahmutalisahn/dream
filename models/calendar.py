@@ -12,7 +12,7 @@ JSONObject = Dict[str, Any]
 
 class Calendar(Base):
     __tablename__ = "calendar"
-    __table_args__ = {"schema": "public"}
+    __table_args__ = {"schema": "lapcalendar"}
     service_id: str = Column(String, primary_key=True)
     user_name : str = Column(String)
     monday: int = Column(Integer)
