@@ -25,7 +25,7 @@ class BookingRepository:
         session.add(booking)
         session.commit()
         return booking.booking_id
-
+    
     def get_booking(
         self,
         user_id,
