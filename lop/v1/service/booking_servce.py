@@ -21,3 +21,28 @@ class BookingService:
     ):
         bookings = self.booking_repository.get_booking(user_id, session)
         return bookings
+ 
+    def get_valid_booking(
+        self,
+        user_id : str,
+        session : db_session_middleware
+    ):
+        bookings = self.booking_repository.get_valid_booking(user_id, session)
+        return bookings
+
+    def get_invalid_booking(
+        self,
+        user_id : str,
+        session : db_session_middleware
+    ):
+        bookings = self.booking_repository.get_invalid_booking(user_id, session)
+        return bookings
+
+    def confirm_booking(
+        self,
+        user_id : str,
+        booking_id : str,
+        session : db_session_middleware
+    ):
+        booking_id = self.booking_repository.confirm_booking(user_id, booking_id, session)
+        return booking_id
