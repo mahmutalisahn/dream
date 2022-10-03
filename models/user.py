@@ -1,10 +1,10 @@
 import json
 from typing import Any, Dict, Optional
 from pydantic import BaseModel
-from sqlalchemy import Column, String, Integer
+from sqlalchemy import Column, String, Integer, Time
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.schema import ForeignKey
-
+from datetime import time
 from base import Base
 from helper import OrmHelper
 
@@ -20,6 +20,8 @@ class User(Base):
     name :str = Column(String)
     surname : str = Column(String)
     phone : int = Column(Integer)
+    shift_start : time = Column(Time)
+    shift_end : time = Column(Time)
 
     def __repr__(self) -> str:
         return json.dumps(self.dict())

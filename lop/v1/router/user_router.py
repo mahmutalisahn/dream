@@ -15,8 +15,10 @@ class UserRouter(GenericRouter):
         self.bind_routes()
 
     def bind_routes(self):
-        self.get_router().get("/{user_id}")(self.get_user_by_username)
-        self.get_router().get("/{user_name}/{password}")(self.check)        
+        self.get_router().get("/{username}")(self.get_user_by_username)
+        self.get_router().get("/{username}/{password}")(self.check)
+        self.get_router().get("/month/{user_id}/{month}")(self.get_calendar_month)   
+        self.get_router().get("/day/{user_id}/{date}")(self.get_calendar_day)   
         self.get_router().post("/")(self.create_user)
 
     def create_user(
@@ -43,3 +45,19 @@ class UserRouter(GenericRouter):
     ):
         result = self.user_service.check(username, password, session)
         return result
+    
+    def get_calendar_month(
+        self,
+        user_id : str,
+        month : int,
+        session : db_session_middleware = Depends()
+    ):
+        return self.user_service.get_calendar_month(user_id, month, session)
+    
+    def get_calendar_day(
+        self,
+        user_id : str,
+        date : str,
+        session : db_session_middleware = Depends()
+    ):
+        return self.user_service.get_calendar_day(user_id, date, session)

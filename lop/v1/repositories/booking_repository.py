@@ -62,4 +62,3 @@ class BookingRepository:
         session.commit()
         return booking_id
     
-    

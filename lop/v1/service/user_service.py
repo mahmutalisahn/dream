@@ -33,3 +33,18 @@ class UserService :
         result = self.user_repository.check(username, password, session)
         return result
 
+    def get_calendar_month(
+        self, 
+        user_id : str,
+        month : int,
+        session : db_session_middleware
+    ):
+        return self.user_repository.get_calendar_month(user_id, month, session)
+
+    def get_calendar_day(
+        self, 
+        user_id : str,
+        date : str,
+        session : db_session_middleware
+    ):
+        return self.user_repository.get_calendar_day(user_id, date, session)
