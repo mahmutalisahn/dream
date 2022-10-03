@@ -22,6 +22,8 @@ class User(Base):
     phone : int = Column(Integer)
     shift_start : time = Column(Time)
     shift_end : time = Column(Time)
+    launch_time_start : time = Column(Time)
+    launch_time_end : time = Column(Time)
 
     def __repr__(self) -> str:
         return json.dumps(self.dict())

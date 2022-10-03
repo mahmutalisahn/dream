@@ -122,16 +122,25 @@ class UserRepository:
             con.execution_options(isolation_level="AUTOCOMMIT")
             result = con.execute(
                 """
-                   SELECT x::time time, case when  x::time not in (
-                                            SELECT distinct start_book from lapcalendar.bookings where date='{}'::date and user_id = '{}'
-                                        ) then 'boş' else 'dolu' end
-                                    FROM
-                                        generate_series('{} {}',
-                                                        '{} {}',
-                                                        interval  '1 hour') x
-
-                                        
-                """.format(date, user_id, date, user.shift_start, date, user.shift_end)
+                    SELECT x::time time, case when  x::time not in (
+                                            SELECT distinct start_book from lapcalendar.bookings where date='{}'::date and user_id = '{}' and status = 1
+                                        )
+                                    and
+                            x::time not in (
+                                        SELECT distinct xx::time
+                                        from lapcalendar.user,
+                                             generate_series('{} {}',
+                                                            '{} {}',
+                                                            interval  '1 hour') xx
+                                    )
+                            or 
+                            x::time = '{}'
+                            then 'boş' else 'dolu' end
+                    FROM
+                        generate_series('{} {}',
+                                        '{} {}',
+                                        interval  '1 hour') x
+                """.format(date, user_id, date, user.launch_time_start, date, user.launch_time_end, user.launch_time_end, date, user.shift_start, date, user.shift_end)
             )
 
         return result.all()
