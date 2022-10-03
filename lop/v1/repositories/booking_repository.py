@@ -56,9 +56,20 @@ class BookingRepository:
         booking_id : str,
         session : db_session_middleware
     ):
-        booking = session.query(Booking)\
+        test_booking = session.query(Booking)\
+            .filter(Booking.user_id == user_id, Booking.booking_id == booking_id).first()
+
+        control_date = session.query(Booking)\
+            .filter(Booking.user_id == user_id, Booking.date == test_booking.date, Booking.start_book == test_booking.start_book, Booking.status == 1)
+
+        if control_date != None:
+            return "Date is already booked"
+
+        session.query(Booking)\
             .filter(Booking.user_id == user_id, Booking.booking_id == booking_id)\
                 .update({Booking.status : 1})
+        
         session.commit()
+
         return booking_id
     

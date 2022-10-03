@@ -65,7 +65,6 @@ class UserRepository:
         month : int,
         session : db_session_middleware
     ):  
-        #create month
         month_start, month_end = self.create_month(month)
         
         user = self.get_user_by_id(user_id, session)
@@ -141,7 +140,6 @@ class UserRepository:
         self,
         month
     ):
-
         if month == 1:
             month_start = '2022-01-01'
             month_end = '2022-01-31'
@@ -179,5 +177,4 @@ class UserRepository:
             month_start = '2022-12-01'
             month_end = '2022-12-31'
 
-
-        return month_start, month_end
+        return month_start, month_end    
