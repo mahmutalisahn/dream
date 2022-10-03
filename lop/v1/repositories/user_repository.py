@@ -1,4 +1,3 @@
-
 from random import SystemRandom
 from models.booking import Booking
 from models.user import UserPydantic, User
@@ -57,7 +56,7 @@ class UserRepository:
         if user is not None:
             if user.password == password:
                 return user
-        
+
         return False
 
     def get_calendar_month(
