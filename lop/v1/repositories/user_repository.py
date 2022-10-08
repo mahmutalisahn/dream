@@ -1,5 +1,6 @@
 from random import SystemRandom
 from models.booking import Booking
+from models.portfolio import Portfolio, PortfolioPydantic
 from models.user import UserPydantic, User
 from middlewares import db_session_middleware
 from db import sqlalchemy_engine
@@ -28,6 +29,22 @@ class UserRepository:
         session.commit()
 
         return user.username
+
+    def create_portfolio(
+        self,
+        data = PortfolioPydantic,
+        session = db_session_middleware
+    ):
+        portfolio = Portfolio()
+
+        portfolio.user_id = data.user_id
+        portfolio.title = data.title
+        portfolio.description = data.description
+
+        session.add(portfolio)
+        session.commit()
+            
+        return 
 
     def get_user_by_id(
         self,

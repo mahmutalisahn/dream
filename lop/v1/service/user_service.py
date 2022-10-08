@@ -1,4 +1,5 @@
 from middlewares import db_session_middleware
+from models.portfolio import PortfolioPydantic
 from models.user import UserPydantic
 from lop.v1.repositories.user_repository import UserRepository
 
@@ -16,6 +17,14 @@ class UserService :
         user_id = self.user_repository.create_user(data, session)
         return user_id
 
+    def create_portfolio(
+        self, 
+        data : PortfolioPydantic,
+        session : db_session_middleware
+    ):
+        portfolio = self.user_repository.create_portfolio(data, session)
+        return portfolio
+        
     def get_user_by_username(
         self, 
         username : UserPydantic,

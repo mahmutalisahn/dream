@@ -2,6 +2,7 @@ from fastapi.params import Depends
 
 from interface.generic_router import GenericRouter
 from middlewares import db_session_middleware
+from models.portfolio import PortfolioPydantic
 
 from models.user import UserPydantic, User
 
@@ -20,6 +21,7 @@ class UserRouter(GenericRouter):
         self.get_router().get("/month/{user_id}/{month}")(self.get_calendar_month)   
         self.get_router().get("/day/{user_id}/{date}")(self.get_calendar_day)   
         self.get_router().post("/")(self.create_user)
+        self.get_router().post("/create/portfolio")(self.create_portfolio)
 
     def create_user(
         self, 
@@ -28,6 +30,14 @@ class UserRouter(GenericRouter):
     ):
         user_id = self.user_service.create_user(data, session)
         return user_id
+    
+    def create_portfolio(
+        self,
+        data :  PortfolioPydantic = Depends(),
+        session : db_session_middleware = Depends()
+    ):
+        portfolio = self.user_service.create_portfolio(data, session)
+        return portfolio
 
     def get_user_by_username (
         self,
