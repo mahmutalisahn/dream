@@ -9,8 +9,7 @@ class CalendarRepository:
         session : db_session_middleware
     ):
         calendar = Calendar()
-        calendar.service_id = data.service_id
-        calendar.user_name = data.user_name
+        calendar.user_id = data.user_id
         calendar.monday = data.monday
         calendar.tuesday = data.tuesday
         calendar.wednesday = data.wednesday
@@ -27,10 +26,8 @@ class CalendarRepository:
 
     def get_calendar(
         self, 
-        user_name : str,
-        service_id : str,
+        user_id : str,
         session : db_session_middleware
-    ):  
-        calendar = session.query(Calendar).filter(Calendar.service_id == service_id and Calendar.user_name == user_name).first()
+    ):
+        calendar = session.query(Calendar).filter(Calendar.user_id == user_id).first()
         return calendar
-    

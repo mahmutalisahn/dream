@@ -29,6 +29,5 @@ class PortfolioPydantic(BaseModel):
     user_id : Optional[str]
     title : Optional[str]
     description : Optional[str]
-    
     class Config:
         orm_mode = True

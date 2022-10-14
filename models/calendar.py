@@ -13,17 +13,15 @@ JSONObject = Dict[str, Any]
 class Calendar(Base):
     __tablename__ = "calendar"
     __table_args__ = {"schema": "lapcalendar"}
-    service_id: str = Column(String, primary_key=True)
-    user_name : str = Column(String)
-    monday: int = Column(Integer)
-    tuesday: int = Column(Integer)
-    wednesday: int = Column(Integer)
-    thursday: int = Column(Integer)
-    friday: int = Column(Integer)
-    saturday: int = Column(Integer)
-    sunday: int = Column(Integer)
-    start_date: date = Column(Date)
-    end_date: date = Column(Date)
+    
+    user_id: str = Column(String, primary_key=True)
+    monday: str = Column(String)
+    tuesday: str = Column(String)
+    wednesday: str = Column(String)
+    thursday: str = Column(String)
+    friday: str = Column(String)
+    saturday: str = Column(String)
+    sunday: str = Column(String)
 
     def __repr__(self) -> str:
         return json.dumps(self.dict())
@@ -35,8 +33,7 @@ class Calendar(Base):
 
 class CalendarPydantic(BaseModel):
 
-    service_id : Optional[str]
-    user_name : Optional[str]
+    user_id : Optional[str]
     monday : Optional[str]
     tuesday : Optional[str]
     wednesday : Optional[str]
@@ -44,8 +41,6 @@ class CalendarPydantic(BaseModel):
     friday : Optional[str]
     saturday : Optional[str]
     sunday : Optional[str]
-    start_date : Optional[date]
-    end_date : Optional[date]
 
     class Config:
         orm_mode = True

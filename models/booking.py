@@ -14,6 +14,7 @@ class Booking(Base):
 
     booking_id :str = Column(String, primary_key=True)
     user_id : str = Column(String)
+    customer_user_id : str = Column(String)
     customer_email : str = Column(String)
     customer_name : str = Column(String)
     customer_surname : str = Column(String)
@@ -32,6 +33,7 @@ class Booking(Base):
 
 class BookingPydantic(BaseModel):
     user_id : Optional[str]
+    customer_user_id : Optional[str]
     customer_email : Optional[str]
     customer_name : Optional[str]
     customer_surname : Optional[str]

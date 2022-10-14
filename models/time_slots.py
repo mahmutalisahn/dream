@@ -13,12 +13,11 @@ from helper import OrmHelper
 JSONObject = Dict[str, time, Any]
 
 class TimeSlots(Base):
-    __tablename__ = "time_slots"
+    __tablename__ = "exceptional_days"
     __table_args__ = {"schema": "lapcalendar"}
-    service_id: str = Column(String, primary_key=True)
-    start_time : time = Column(Time)
-    end_time : time = Column(Time)
-    user_id : str = Column(String)
+    user_id: str = Column(String, primary_key=True)
+    exceptional_date : date = Column(Date)
+    shift : str = Column(String)
 
     def __repr__(self) -> str:
         return json.dumps(self.dict())
@@ -29,10 +28,9 @@ class TimeSlots(Base):
 
 class TimeSlotsPydantic(BaseModel):
 
-    service_id : Optional[str]
-    start_time : Optional[time]
-    end_time : Optional[time]
     user_id : Optional[str]
+    exceptional_date : Optional[date]
+    shift : Optional[str]
 
     class Config:
         orm_mode = True

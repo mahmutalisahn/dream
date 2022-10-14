@@ -19,11 +19,7 @@ class User(Base):
     password : str = Column(String)
     name :str = Column(String)
     surname : str = Column(String)
-    phone : int = Column(Integer)
-    shift_start : time = Column(Time)
-    shift_end : time = Column(Time)
-    launch_time_start : time = Column(Time)
-    launch_time_end : time = Column(Time)
+    phone : str = Column(String)
 
     def __repr__(self) -> str:
         return json.dumps(self.dict())
@@ -39,8 +35,10 @@ class UserPydantic(BaseModel):
     password : Optional[str]
     name : Optional[str]
     surname : Optional[str]
-    phone : Optional[int]    
+    phone : Optional[str]    
 
     class Config:
         orm_mode = True
 
+class UserPortfolioPydantic(BaseModel):
+    pass
