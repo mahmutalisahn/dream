@@ -25,7 +25,7 @@ class BookingRepository:
 
         session.add(booking)
         session.commit()
-        return booking.dict()
+        return booking
     
     def get_booking(
         self,
@@ -78,7 +78,6 @@ class BookingRepository:
         self,
         user_id,
         date,
-        session : db_session_middleware
     ):
         with sqlalchemy_engine.connect() as con:
             con.execution_options(isolation_level="AUTOCOMMIT")

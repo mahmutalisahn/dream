@@ -51,7 +51,6 @@ class BookingService:
         self,
         user_id : str,
         date,
-        session : db_session_middleware
     ):
-        bookings = self.booking_repository.get_booking_of_day(user_id, date, session)
+        bookings = self.booking_repository.get_booking_of_day(user_id, date)
         return bookings

@@ -69,8 +69,7 @@ class BookingRouter(GenericRouter):
         self, 
         user_id : str, 
         date : str, 
-        session : db_session_middleware = Depends()
     ):
         '''Verilen tarihteki onaylanmış bookinglerin saatlerini verir'''
-        booking_id = self.booking_service.get_booking_of_day(user_id, date, session)    
+        booking_id = self.booking_service.get_booking_of_day(user_id, date)    
         return booking_id
