@@ -1,3 +1,4 @@
+# type: ignore
 from db import sqlalchemy_engine
 from models.booking import Booking, BookingPydantic
 from middlewares import db_session_middleware

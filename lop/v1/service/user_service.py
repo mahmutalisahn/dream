@@ -1,3 +1,4 @@
+# type: ignore
 from middlewares import db_session_middleware
 from models.portfolio import PortfolioPydantic
 from models.user import UserPydantic
@@ -47,8 +48,8 @@ class UserService :
         self, 
         service_id : str,
         user_id : str,
-        year : str,
-        month : str,
+        year : int,
+        month : int,
         session : db_session_middleware
     ):
         return self.user_repository.get_calendar_month(service_id, user_id, year, month, session)

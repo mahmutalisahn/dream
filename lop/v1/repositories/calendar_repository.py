@@ -1,3 +1,4 @@
+# type: ignore
 from models.calendar import Calendar, CalendarPydantic
 from middlewares import db_session_middleware
 from db import sqlalchemy_engine

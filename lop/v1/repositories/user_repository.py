@@ -1,4 +1,6 @@
+# type: ignore
 from calendar import Calendar
+import re
 from typing import List
 from datetime import datetime, timedelta
 
@@ -69,7 +71,7 @@ class UserRepository:
         user_id : str,
         data : UserPydantic,
         update : List[str],
-        session : db_session_middleware
+        session : db_session_middleware 
     ):
         user = session.query(User).filter(User.user_id == user_id).first()
 
@@ -155,30 +157,29 @@ class UserRepository:
         self,
         service_id : str,
         user_id : str,
-        year : str,
-        month : str,
+        year : int,
+        month : int,
         session : db_session_middleware
-    ):  
+    ):
 
         dates = []
         time_limit = self.create_month(month)
         
         counter = 1
         while(counter <= time_limit):
-            date = '{}-{}-{}'.format(year, month, counter)
-
+            date = datetime(year, month, counter)
             if self.get_calendar_day( service_id, user_id, date, session) != []:
                 dates.append(counter)
             
             counter += 1
             
         return dates
-        
+
     def get_calendar_day(
         self,
         service_id : str,
         user_id : str,
-        date : str,
+        date : datetime,
         session : db_session_middleware
     ):
         service = self.service_repository.get_service(service_id,session)
@@ -186,7 +187,7 @@ class UserRepository:
 
         df = self.calendar_repository.get_user_calendar(user_id)
         #kullanıcının çalışma şeklini al   
-        day = datetime(2022, 2, 10, 1, 0, 0).weekday()     
+        day = datetime(int(date.year), int(date.month), int(date.day), 1, 0, 0).weekday()     
         weekday = self.get_weekday(int(day))
         #baktığın günün adını bul
         #kullanıcının çalışma saatlerini çıkar
@@ -194,85 +195,111 @@ class UserRepository:
         shift_end = df.iloc[0]['{}_end'.format(weekday)]
         launch_start = df.iloc[0]['{}_launch_start'.format(weekday)]
         launch_end = df.iloc[0]['{}_launch_end'.format(weekday)]
-    
-        with sqlalchemy_engine.connect() as con:
-
-            con.execution_options(isolation_level="AUTOCOMMIT")
-            result = con.execute(
-                """
-                    SELECT x::time time                    
-                    FROM
-                        generate_series('{} {}',
-                                        '{} {}',
-                                        interval  '15 min') x
-                    WHERE x::time not in
-                                (
-                                    SELECT distinct start_book from lapcalendar.bookings where date='{}'::date and user_id = '{}' and status = 1
-                                )
-                                and
-                                x::time not between '{}' and '{}'
-                                and
-                                x::time not in
-                                (
-                                    SELECT distinct start_book
-                                    from lapcalendar.bookings
-                                    where user_id = '{}' and date = '{}' and status = 1
-                                )
-                                
-          
-                    """.format(date, shift_start, date, shift_end, date, user_id, launch_start, launch_end, user_id, date)                                
-            )
-        
-        result = result.all()
+        query_date = '{}-{}-{}'.format(date.year, date.month, date.day)
         return_result = []
         
-        new_result = [datetime(100,1,1,r[0].hour, r[0].minute, r[0].second) for r in result]
-        flag = False
+        if shift_start != 'NotWorking':
+            if launch_start == 'NoLaunch':
+                launch_start = launch_end = '01:00'
+            with sqlalchemy_engine.connect() as con:
+                start_book = con.execute(
+                    """
+                        SELECT distinct start_book
+                        from lapcalendar.bookings
+                        where user_id = '{}' and date = '{}' and status = 1
 
-        for r in new_result:
-            new_r = r
-            counter = int(duration)/15 
-            while counter > 0:
-                new_r += timedelta(seconds=900)
-                if new_r in new_result:
-                    flag = True
-                    
+                    """.format(user_id, date)
+                ).all()
+
+                end_book = con.execute(
+                    """                                    
+                        SELECT distinct end_book
+                        from lapcalendar.bookings
+                        where user_id = '{}' and date = '{}' and status = 1
+
+                    """.format(user_id, date)
+                ).all()
+
+                if start_book != []:
+                    book_query = "and "
                 else:
-                    flag = False
-                    break
-                counter -= 1
-            
-            if flag:
-                return_result.append(r.time())
+                    book_query = ""
+
+                counter = 0
+                for start in start_book:
+                    end = end_book[counter][0]
+                    if counter > 0:
+                        book_query += " AND "
+                    book_query += """
+
+                    x::time not between '{}:{}' and '{}:{}'
+                    
+                    """.format(start[0].hour, start[0].minute, end.hour, end.minute)
+                    counter += 1
+
+
+                con.execution_options(isolation_level="AUTOCOMMIT")
+                result = con.execute(
+                    """
+                        SELECT x::time time                    
+                        FROM
+                            generate_series('{} {}',
+                                            '{} {}',
+                                            interval  '15 min') x
+                        WHERE 
+                            x::time not between '{}' and '{}'
+                            {}
+                        """.format(query_date, shift_start, query_date, shift_end, launch_start, launch_end, book_query)                                
+                )
+            result = result.all()
+
+            new_result = [datetime(100,1,1,r[0].hour, r[0].minute, r[0].second) for r in result]
+            flag = False
+
+            for r in new_result:
+                new_r = r
+                counter = int(duration)/15 
+                while counter > 0:
+                    if new_r in new_result:
+                        flag = True
+
+                    else:
+                        flag = False
+                        break
+                    new_r += timedelta(seconds=900)
+                    counter -= 1
+
+                if flag:
+                    return_result.append(r.time())
         return return_result
 
     def create_month(
         self,
         month
     ):
-        if month == '01':
+        if month == 1:
             day = 31
-        elif month == '02':
+        elif month == 2:
             day = 28
-        elif month == '03':
+        elif month == 3:
             day = 31
-        elif month == '04':
+        elif month == 4:
             day = 30
-        elif month == '05':
+        elif month == 5:
             day = 31
-        elif month == '06':
+        elif month == 6:
             day = 30
-        elif month == '07':
+        elif month == 7:
             day = 31
-        elif month == '08':
+        elif month == 8:
             day = 31
-        elif month == '09':
+        elif month == 9:
             day = 30
-        elif month == '10':
+        elif month == 10:
             day = 31
-        elif month == '11':
+        elif month == 11:
             day = 30
-        elif month == '12':
+        elif month == 12:
             day = 31
         else :
             day = 0

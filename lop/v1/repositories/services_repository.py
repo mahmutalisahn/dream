@@ -1,3 +1,4 @@
+# type: ignore
 from middlewares import db_session_middleware
 from models.service import  Service, ServicePydantic
 

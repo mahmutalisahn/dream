@@ -1,3 +1,4 @@
+# type: ignore
 from fastapi.params import Depends
 
 from interface.generic_router import GenericRouter
@@ -65,8 +66,8 @@ class UserRouter(GenericRouter):
         self,
         service_id : str,
         user_id : str,
-        year : str,
-        month : str,
+        year : int,
+        month : int,
         session : db_session_middleware = Depends()
     ):
         ''' Verdiğin service_id ye sahip olan işin rezervasyonunun yapılabileceği günleri sana liste olarak verir'''
