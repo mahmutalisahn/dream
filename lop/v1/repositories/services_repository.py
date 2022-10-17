@@ -25,10 +25,10 @@ class ServiceRepository:
     
     def get_service(
         self,
-        user_id : str,
+        service_id : str,
         session : db_session_middleware
     ):
-        services = session.query(Service).filter(Service.user_id == user_id).all()
+        services = session.query(Service).filter(Service.service_id == service_id).all()
         return services
     
     def update_service(

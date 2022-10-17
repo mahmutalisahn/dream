@@ -1,3 +1,4 @@
+from db import sqlalchemy_engine
 from models.booking import Booking, BookingPydantic
 from middlewares import db_session_middleware
 
@@ -72,4 +73,20 @@ class BookingRepository:
         session.commit()
 
         return booking_id
+    
+    def get_booking_of_day(
+        self,
+        user_id,
+        date,
+        session : db_session_middleware
+    ):
+        with sqlalchemy_engine.connect() as con:
+            con.execution_options(isolation_level="AUTOCOMMIT")
+            result = con.execute(
+                """
+                    SELECT start_book::varchar, end_book::varchar FROM lapcalendar.bookings WHERE user_id = '{}' AND date = '{}' AND status = 1;
+                """.format(user_id, date)
+            )
+            
+        return result.all()
     

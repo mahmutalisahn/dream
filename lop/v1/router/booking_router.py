@@ -4,7 +4,7 @@ from interface.generic_router import GenericRouter
 from middlewares import db_session_middleware
 
 from models.booking import Booking, BookingPydantic
-from lop.v1.service.booking_servce import BookingService
+from lop.v1.service.booking_service import BookingService
 
 class BookingRouter(GenericRouter):
 
@@ -18,6 +18,7 @@ class BookingRouter(GenericRouter):
         self.get_router().get("/valid/{user_id}")(self.get_valid_booking)
         self.get_router().get("/invalid/{user_id}")(self.get_invalid_booking)
         self.get_router().get("/confirm/{user_id}/{booking_id}")(self.confirm_booking)
+        self.get_router().get("/day/{user_id}/{date}")(self.get_booking_of_day)
         self.get_router().post("/")(self.create_booking)
 
     def create_booking(
@@ -40,7 +41,8 @@ class BookingRouter(GenericRouter):
         self,
         user_id : str,
         session : db_session_middleware = Depends()
-    ):
+    ):     
+        '''Validate edilmiş bookingleri verir'''
         bookings = self.booking_service.get_valid_booking(user_id, session)
         return bookings
 
@@ -49,6 +51,7 @@ class BookingRouter(GenericRouter):
         user_id : str,
         session : db_session_middleware = Depends()
     ):
+        '''Validate edilmemiş bookingleri verir'''
         bookings = self.booking_service.get_invalid_booking(user_id, session)
         return bookings
 
@@ -58,5 +61,16 @@ class BookingRouter(GenericRouter):
         booking_id : str,
         session : db_session_middleware = Depends()
     ):
+        '''verilen user_id ve booking i onaylar, booking artık onaylanmışlar arasında yer alır'''
         booking_id = self.booking_service.confirm_booking(user_id, booking_id, session)
+        return booking_id
+    
+    def get_booking_of_day(
+        self, 
+        user_id : str, 
+        date : str, 
+        session : db_session_middleware = Depends()
+    ):
+        '''Verilen tarihteki onaylanmış bookinglerin saatlerini verir'''
+        booking_id = self.booking_service.get_booking_of_day(user_id, date, session)    
         return booking_id

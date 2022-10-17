@@ -24,13 +24,6 @@ class Booking(Base):
     date : date = Column(Date)
     status : int = Column(Integer)
 
-    def __repr__(self) -> str:
-        return json.dumps(self.dict())
-    def __str__(self) -> str:
-        return json.dumps(self.dict())
-    def dict(self) -> dict:
-        return OrmHelper.toDict(self)
-
 class BookingPydantic(BaseModel):
     user_id : Optional[str]
     customer_user_id : Optional[str]

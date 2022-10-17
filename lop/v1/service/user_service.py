@@ -17,14 +17,6 @@ class UserService :
         user_id = self.user_repository.create_user(data, session)
         return user_id
 
-    def create_portfolio(
-        self, 
-        data : PortfolioPydantic,
-        session : db_session_middleware
-    ):
-        portfolio = self.user_repository.create_portfolio(data, session)
-        return portfolio
-        
     def get_user_by_username(
         self, 
         username : UserPydantic,
@@ -33,6 +25,15 @@ class UserService :
         user = self.user_repository.get_user_by_username(username, session)
         return user
     
+    def create_portfolio(
+        self, 
+        user_id : str,
+        data : PortfolioPydantic,
+        session : db_session_middleware
+    ):
+        portfolio = self.user_repository.create_portfolio(user_id, data, session)
+        return portfolio
+        
     def check(
         self, 
         username : str,
@@ -44,16 +45,19 @@ class UserService :
 
     def get_calendar_month(
         self, 
+        service_id : str,
         user_id : str,
-        month : int,
+        year : str,
+        month : str,
         session : db_session_middleware
     ):
-        return self.user_repository.get_calendar_month(user_id, month, session)
+        return self.user_repository.get_calendar_month(service_id, user_id, year, month, session)
 
     def get_calendar_day(
         self, 
         user_id : str,
+        service_id : str,
         date : str,
         session : db_session_middleware
     ):
-        return self.user_repository.get_calendar_day(user_id, date, session)
+        return self.user_repository.get_calendar_day(service_id, user_id, date, session)

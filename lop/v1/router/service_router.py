@@ -22,7 +22,8 @@ class ServiceRouter(GenericRouter):
         self, 
         data : ServicePydantic = Depends(),
         session : db_session_middleware = Depends()
-    ):
+    ):  
+        '''Service oluştur'''
         service = self.service_service.create_service(data, session)
         return service
     
@@ -31,6 +32,7 @@ class ServiceRouter(GenericRouter):
         user_id : str,
         session : db_session_middleware = Depends()
     ):
+        '''Service çek'''
         services = self.service_service.get_service(user_id, session)
         return services
     
@@ -40,6 +42,7 @@ class ServiceRouter(GenericRouter):
         data : ServicePydantic = Depends(),
         session : db_session_middleware = Depends()
     ):
+        '''Service güncelle'''
         service = self.service_service.update_service(service_id, data, session)
         return service
 
@@ -49,5 +52,6 @@ class ServiceRouter(GenericRouter):
         service_id : str,
         session : db_session_middleware = Depends()
     ):
+        '''Service sil'''
         service = self.service_service.delete_service(user_id, service_id, session)
         return service

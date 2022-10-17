@@ -15,13 +15,14 @@ class CalendarRouter(GenericRouter):
     
     def bind_routes(self):
         self.get_router().get("/{user_name}/{service_id}")(self.get_calendar)
-        self.get_router().post("/")(self.create_service)
+        self.get_router().post("/")(self.create_calendar)
         
-    def create_service(
+    def create_calendar(
         self, 
         data : CalendarPydantic = Depends(),
         session : db_session_middleware = Depends()
     ):
+        '''Create a calendar from the given data. \nData format is " StartTime_EndTime_LaunchTimeStart_LaunchTimeEnd "\nIf user not working, send "Not Working" message.'''
         result = self.calendar_service.create_calendar(data, session)
         return result
     

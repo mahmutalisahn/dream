@@ -46,3 +46,12 @@ class BookingService:
     ):
         booking_id = self.booking_repository.confirm_booking(user_id, booking_id, session)
         return booking_id
+    
+    def get_booking_of_day(
+        self,
+        user_id : str,
+        date,
+        session : db_session_middleware
+    ):
+        bookings = self.booking_repository.get_booking_of_day(user_id, date, session)
+        return bookings
