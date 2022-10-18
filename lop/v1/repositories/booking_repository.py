@@ -2,11 +2,15 @@
 from db import sqlalchemy_engine
 from models.booking import Booking, BookingPydantic
 from middlewares import db_session_middleware
-
+from .services_repository import ServiceRepository
 import uuid
+from datetime import datetime,timedelta,time
 
 class BookingRepository:
     
+    def __init__(self):
+        self.service_repository = ServiceRepository()
+
     def create_booking(
         self,
         data : BookingPydantic,
@@ -20,10 +24,18 @@ class BookingRepository:
         booking.customer_surname = data.customer_surname
         booking.customer_phone = data.customer_phone
         booking.start_book = data.start_book
-        booking.end_book = data.end_book
         booking.date = data.date
+        booking.service_id = data.service_id
         booking.status = 0
 
+        service = self.service_repository.get_service(data.service_id, session)[0]        
+        duration = service.service_duration
+
+        duration -= 1
+
+        end_book = datetime(100,1,1,data.start_book.hour, data.start_book.minute, data.start_book.second)
+        end_book += timedelta(minutes=duration)
+        booking.end_book = end_book
         session.add(booking)
         session.commit()
         return booking

@@ -1,3 +1,5 @@
+# type: ignore
+
 from fastapi.params import Depends
 
 from interface.generic_router import GenericRouter
@@ -30,10 +32,11 @@ class ServiceRouter(GenericRouter):
     def get_service(
         self, 
         user_id : str,
+        service_id : str,
         session : db_session_middleware = Depends()
     ):
         '''Service çek'''
-        services = self.service_service.get_service(user_id, session)
+        services = self.service_service.get_service(service_id, user_id, session)
         return services
     
     def update_service(

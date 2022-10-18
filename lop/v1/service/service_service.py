@@ -1,3 +1,5 @@
+# type: ignore
+
 from middlewares import db_session_middleware
 from models.service import Service, ServicePydantic
 from lop.v1.repositories.services_repository import ServiceRepository
@@ -17,9 +19,10 @@ class ServiceService:
     def get_service(
         self, 
         user_id,
+        service_id : str,
         session : db_session_middleware
     ):
-        service = self.service_repository.get_service(user_id, session)
+        service = self.service_repository.get_service(service_id, user_id, session)
         return service
     
     def update_service(

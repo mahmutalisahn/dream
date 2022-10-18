@@ -24,6 +24,7 @@ class Booking(Base):
     end_book : time = Column(Time)
     date : date = Column(Date)
     status : int = Column(Integer)
+    service_id : str = Column(String)
 
     def __repr__(self) -> str:
         return json.dumps(self.dict())
@@ -34,13 +35,13 @@ class Booking(Base):
 
 class BookingPydantic(BaseModel):
     user_id : Optional[str]
+    service_id : Optional[str]
     customer_user_id : Optional[str]
     customer_email : Optional[str]
     customer_name : Optional[str]
     customer_surname : Optional[str]
     customer_phone : Optional[str]
     start_book : Optional[time]
-    end_book : Optional[time]
     date : Optional[date]
 
     class Config:
