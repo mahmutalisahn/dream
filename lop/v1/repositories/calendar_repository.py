@@ -1,24 +1,100 @@
 # type: ignore
-from models.calendar import Calendar, CalendarPydantic
+from models.calendar import Calendar, CalendarPydantic, CalendarSaverPydantic
 from middlewares import db_session_middleware
 from db import sqlalchemy_engine
 import pandas as pd
+from datetime import datetime, timedelta
+
+notworking = "NotWorking_NotWorking_NotWorking_NotWorking"
+nolaunch = "NoLaunch_NoLaunch"
+
 class CalendarRepository:
 
     def create_calendar(
         self, 
-        data : CalendarPydantic,
+        data : CalendarSaverPydantic,
         session : db_session_middleware
     ):
+
         calendar = Calendar()
         calendar.user_id = data.user_id
-        calendar.monday = data.monday
-        calendar.tuesday = data.tuesday
-        calendar.wednesday = data.wednesday
-        calendar.thursday = data.thursday
-        calendar.friday = data.friday
-        calendar.saturday = data.saturday
-        calendar.sunday = data.sunday
+
+        if data.monday_not_working == True:
+            calendar.monday = notworking
+        else:
+            new_end = datetime(100,1,1,data.monday_end.hour, data.monday_end.minute, data.monday_end.second) - timedelta(seconds=1)
+
+            if data.monday_no_launch == True:
+                calendar.monday = str(data.monday_start) + "_" + str(new_end.time()) + "_" + nolaunch    
+            else :
+                new_launch_end = datetime(100,1,1,data.monday_launch_end.hour, data.monday_launch_end.minute, data.monday_launch_end.second) - timedelta(seconds = 1) 
+                calendar.monday = str(data.monday_start) + "_" + str(new_end.time()) + "_" + str(data.monday_launch_start) +   "_" + str(new_launch_end.time())
+
+        if data.tuesday_not_working == True:
+            calendar.tuesday = notworking
+        else :
+            new_end = datetime(100,1,1,data.tuesday_end.hour, data.tuesday_end.minute, data.tuesday_end.second) - timedelta(seconds=1) 
+
+            if data.tuesday_no_launch == True:
+                calendar.tuesday = str(data.tuesday_start) + "_" + str(new_end.time()) + "_" + nolaunch
+            else:
+                new_launch_end = datetime(100,1,1,data.tuesday_launch_end.hour, data.tuesday_launch_end.minute, data.tuesday_launch_end.second) - timedelta(seconds = 1)
+                calendar.tuesday = str(data.tuesday_start) + "_" + str(new_end.time()) + "_" + str(data.monday_launch_start) + "_" + str(new_launch_end.time())
+
+        if data.wednesday_not_working == True:
+            calendar.wednesday = notworking
+        else:
+            new_end = datetime(100,1,1,data.wednesday_end.hour, data.wednesday_end.minute, data.wednesday_end.second) - timedelta(seconds=1) 
+
+            if data.wednesday_no_launch == True:
+                calendar.tuesday = str(data.tuesday_start) + "_" + str(new_launch_end.time()) + "_" + nolaunch
+            else:
+                new_launch_end = datetime(100,1,1,data.wednesday_launch_end.hour, data.wednesday_launch_end.minute, data.wednesday_launch_end.second) - timedelta(seconds = 1)
+                calendar.wednesday = str(data.tuesday_start) + "_" + str(new_end.time()) + "_" + str(data.monday_launch_start) + "_" + str(new_launch_end.time())
+
+        if data.thursday_not_working == True:
+            calendar.thursday = notworking
+        else:
+            new_end = datetime(100,1,1,data.thursday_end.hour, data.thursday_end.minute, data.thursday_end.second) - timedelta(seconds=1) 
+
+            if data.thursday_no_launch == True:
+                calendar.thursday = str(data.thursday_start) + "_" + str(new_launch_end.time()) + "_" + nolaunch
+            else:
+                new_launch_end = datetime(100,1,1,data.thursday_launch_end.hour, data.thursday_launch_end.minute, data.thursday_launch_end.second) - timedelta(seconds = 1)
+                calendar.thursday = str(data.thursday_start) + "_" + str(new_end.time()) + "_" + str(data.monday_launch_start) + "_" + str(new_launch_end.time())
+
+        if data.friday_not_working == True:
+            calendar.friday = notworking
+        else:
+            new_end = datetime(100,1,1,data.friday_end.hour, data.friday_end.minute, data.friday_end.second) - timedelta(seconds=1) 
+
+            if data.friday_no_launch == True:
+                calendar.friday = str(data.friday_start) + "_" + str(new_launch_end.time()) + "_" + nolaunch
+            else:
+                new_launch_end = datetime(100,1,1,data.friday_launch_end.hour, data.friday_launch_end.minute, data.friday_launch_end.second) - timedelta(seconds = 1)
+                calendar.friday = str(data.friday_start) + "_" + str(new_end.time()) + "_" + str(data.monday_launch_start) + "_" + str(new_launch_end.time())
+
+        if data.saturday_not_working == True:
+            calendar.saturday = notworking
+        else:
+            new_end = datetime(100,1,1,data.saturday_end.hour, data.saturday_end.minute, data.saturday_end.second) - timedelta(seconds=1) 
+
+            if data.saturday_no_launch == True:
+                calendar.saturday = str(data.saturday_start) + "_" + str(new_launch_end.time()) + "_" + nolaunch
+            else:
+                new_launch_end = datetime(100,1,1,data.saturday_launch_end.hour, data.saturday_launch_end.minute, data.saturday_launch_end.second) - timedelta(seconds = 1)
+                calendar.saturday = str(data.saturday_start) + "_" + str(new_end.time()) + "_" + str(data.monday_launch_start) + "_" + str(new_launch_end.time())
+
+        if data.sunday_not_working == True:
+            calendar.sunday = notworking
+        else:
+            new_end = datetime(100,1,1,data.sunday_end.hour, data.sunday_end.minute, data.sunday_end.second) - timedelta(seconds=1) 
+
+            if data.sunday_no_launch == True:
+                calendar.sunday = str(data.sunday_start) + "_" + str(new_launch_end.time()) + "_" + nolaunch
+            else:
+                new_launch_end = datetime(100,1,1,data.sunday_launch_end.hour, data.sunday_launch_end.minute, data.sunday_launch_end.second) - timedelta(seconds = 1)
+                calendar.sunday = str(data.sunday_start) + "_" + str(new_end.time()) + "_" + str(data.monday_launch_start) + "_" + str(new_launch_end.time())
 
         session.add(calendar)
         session.commit()
@@ -86,3 +162,5 @@ class CalendarRepository:
 
 
         return df
+
+

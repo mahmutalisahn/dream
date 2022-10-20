@@ -1,5 +1,5 @@
 from middlewares import db_session_middleware
-from models.calendar import CalendarPydantic
+from models.calendar import CalendarPydantic, CalendarSaverPydantic
 from ..repositories.calendar_repository import  CalendarRepository
 
 class CalendarService:
@@ -8,7 +8,7 @@ class CalendarService:
     
     def create_calendar(
         self, 
-        data : CalendarPydantic,
+        data : CalendarSaverPydantic,
         session : db_session_middleware
     ):
         result = self.calendar_repository.create_calendar(data, session)

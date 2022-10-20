@@ -3,7 +3,7 @@ from fastapi.params import Depends
 
 from interface.generic_router import GenericRouter
 from middlewares import db_session_middleware
-from models.calendar import CalendarPydantic
+from models.calendar import CalendarPydantic, CalendarSaverPydantic
 
 from ..service.calendar_service import CalendarService
 
@@ -19,7 +19,7 @@ class CalendarRouter(GenericRouter):
         
     def create_calendar(
         self, 
-        data : CalendarPydantic = Depends(),
+        data : CalendarSaverPydantic = Depends(),
         session : db_session_middleware = Depends()
     ):
         '''Create a calendar from the given data. \nData format is " StartTime_EndTime_LaunchTimeStart_LaunchTimeEnd "\nIf user not working, send "Not Working" message.'''
