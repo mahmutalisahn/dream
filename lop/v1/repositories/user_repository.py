@@ -15,7 +15,6 @@ from models.user import UserPydantic, User
 from ..utils import generate_time
 
 from .services_repository import ServiceRepository
-from .booking_repository import BookingRepository
 from .calendar_repository import CalendarRepository
 
 import uuid
@@ -25,7 +24,6 @@ class UserRepository:
     
     def __init__(self):
         self.service_repository = ServiceRepository()
-        self.booking_repository = BookingRepository()
         self.calendar_repository = CalendarRepository()
 
     def get_user_by_id(
@@ -57,7 +55,8 @@ class UserRepository:
         user.surname = data.surname
         user.user_id = str(uuid.uuid1())
         user.password = data.password
-        
+        user.ssn = data.ssn
+
         if data.phone != None:
             user.phone = data.phone
 
@@ -88,6 +87,10 @@ class UserRepository:
                 pass
             elif make_update == "surname":
                 pass
+
+    def get_user_by_ssn(self, ssn, session):
+        user = session.query(User).filter(User.ssn == ssn).first()
+        return user
 
     def create_portfolio(
         self,
@@ -137,7 +140,6 @@ class UserRepository:
         session.commit()
 
         return "done"
-
 
     def check(
         self,
@@ -321,4 +323,3 @@ class UserRepository:
             return'saturday'
         elif weekday == 6:
             return'sunday'
-

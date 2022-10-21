@@ -13,6 +13,7 @@ JSONObject = Dict[str, Any]
 class User(Base):
     __tablename__ = "user"
     __table_args__ = {"schema":"lapcalendar"}
+    ssn : str = Column(String, primary_key=True) 
     user_id :str = Column(String, primary_key=True)
     email : str = Column(String, primary_key=True)
     username : str = Column(String, primary_key=True)
@@ -30,6 +31,7 @@ class User(Base):
 
 class UserPydantic(BaseModel):
 
+    ssn : Optional[str]
     email : Optional[str]
     username : Optional[str]
     password : Optional[str]

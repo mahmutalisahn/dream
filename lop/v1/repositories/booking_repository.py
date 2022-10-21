@@ -1,21 +1,25 @@
-# type: ignore
 from db import sqlalchemy_engine
 from models.booking import Booking, BookingPydantic
+from models.booking_security import BookingSecurity
+
 from middlewares import db_session_middleware
 from .services_repository import ServiceRepository
 import uuid
 from datetime import datetime,timedelta,time
+from .user_repository import UserRepository
 
 class BookingRepository:
     
     def __init__(self):
         self.service_repository = ServiceRepository()
+        self.user_repository = UserRepository()
 
     def create_booking(
         self,
         data : BookingPydantic,
         session : db_session_middleware
     ):
+            
         booking = Booking()
         booking.booking_id = str(uuid.uuid1())
         booking.user_id = data.user_id
@@ -28,7 +32,8 @@ class BookingRepository:
         booking.service_id = data.service_id
         booking.status = 0
 
-        service = self.service_repository.get_service(data.service_id, session)[0]        
+
+        service = self.service_repository.get_service(data.service_id, data.user_id, session)       
         duration = service.service_duration
 
         duration -= 1
@@ -36,7 +41,19 @@ class BookingRepository:
         end_book = datetime(100,1,1,data.start_book.hour, data.start_book.minute, data.start_book.second)
         end_book += timedelta(minutes=duration)
         booking.end_book = end_book
-        session.add(booking)
+
+        if (self.user_repository.get_user_by_ssn(data.customer_ssn, session) == None):
+            booking_security = BookingSecurity()
+            booking_security.booking_security_id = str(uuid.uuid1())
+            booking_security.booking_id = booking.booking_id
+            booking_security.customer_ssn = data.customer_ssn
+            
+            session.add(booking_security)
+            session.add(booking)
+            
+        else:
+            session.add(booking)
+
         session.commit()
         return booking
     

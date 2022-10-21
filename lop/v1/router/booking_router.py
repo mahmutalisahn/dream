@@ -1,3 +1,4 @@
+from typing import Optional
 from fastapi.params import Depends
 
 from interface.generic_router import GenericRouter
@@ -31,7 +32,7 @@ class BookingRouter(GenericRouter):
     
     def get_booking(
         self,
-        user_id : str,
+        user_id : Optional[str],
         session : db_session_middleware = Depends()
     ):
         bookings = self.booking_service.get_booking(user_id, session)
