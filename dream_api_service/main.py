@@ -3,11 +3,11 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from starlette.requests import Request
 from starlette.responses import Response
-from dream_api_service.lop.v1.router.booking_router import BookingRouter
-from dream_api_service.lop.v1.router.service_router import ServiceRouter
+from lop.v1.router.booking_router import BookingRouter
+from lop.v1.router.service_router import ServiceRouter
 
-from dream_api_service.lop.v1.router.user_router import UserRouter
-from dream_api_service.lop.v1.router.calendar_router import CalendarRouter
+from lop.v1.router.user_router import UserRouter
+from lop.v1.router.calendar_router import CalendarRouter
 
 VERSION = "1.0.6"
 

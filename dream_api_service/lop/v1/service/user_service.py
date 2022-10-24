@@ -1,8 +1,8 @@
 # type: ignore
-from dream_api_service.middlewares import db_session_middleware
-from dream_api_service.models.portfolio import PortfolioPydantic
-from dream_api_service.models.user import UserPydantic
-from dream_api_service.lop.v1.repositories.user_repository import UserRepository
+from middlewares import db_session_middleware
+from models.portfolio import PortfolioPydantic
+from models.user import UserPydantic
+from lop.v1.repositories.user_repository import UserRepository
 
 
 class UserService :

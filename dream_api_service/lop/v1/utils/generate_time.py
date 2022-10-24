@@ -1,5 +1,5 @@
 import pandas
-from dream_api_service.db import sqlalchemy_engine
+from db import sqlalchemy_engine
 
 def generate_hours(start, end):
 

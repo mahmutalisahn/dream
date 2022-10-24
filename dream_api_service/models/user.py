@@ -5,8 +5,8 @@ from sqlalchemy import Column, String, Integer, Time
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.schema import ForeignKey
 from datetime import time
-from dream_api_service.base import Base
-from dream_api_service.helper import OrmHelper
+from base import Base
+from helper import OrmHelper
 
 JSONObject = Dict[str, Any]
 

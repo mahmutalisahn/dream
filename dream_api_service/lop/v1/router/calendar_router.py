@@ -1,9 +1,9 @@
 from unittest import result
 from fastapi.params import Depends
 
-from dream_api_service.interface.generic_router import GenericRouter
-from dream_api_service.middlewares import db_session_middleware
-from dream_api_service.models.calendar import CalendarPydantic, CalendarSaverPydantic
+from interface.generic_router import GenericRouter
+from middlewares import db_session_middleware
+from models.calendar import CalendarPydantic, CalendarSaverPydantic
 
 from ..service.calendar_service import CalendarService
 

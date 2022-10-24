@@ -3,8 +3,8 @@ import json
 from typing import Any, Dict, Optional
 from pydantic import BaseModel
 from sqlalchemy import Column, String, Time, Date, Integer
-from dream_api_service.base import Base
-from dream_api_service.helper import OrmHelper
+from base import Base
+from helper import OrmHelper
 from datetime import time, date
 
 JSONObject = Dict[str, Any]

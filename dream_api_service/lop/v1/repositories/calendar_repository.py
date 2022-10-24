@@ -1,7 +1,7 @@
 # type: ignore
-from dream_api_service.models.calendar import Calendar, CalendarPydantic, CalendarSaverPydantic
-from dream_api_service.middlewares import db_session_middleware
-from dream_api_service.db import sqlalchemy_engine
+from models.calendar import Calendar, CalendarPydantic, CalendarSaverPydantic
+from middlewares import db_session_middleware
+from db import sqlalchemy_engine
 import pandas as pd
 from datetime import datetime, timedelta
 

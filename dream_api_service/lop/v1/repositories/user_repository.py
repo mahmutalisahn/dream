@@ -4,13 +4,13 @@ import re
 from typing import List
 from datetime import datetime, timedelta
 
-from dream_api_service.db import sqlalchemy_engine
+from db import sqlalchemy_engine
 
-from dream_api_service.middlewares import db_session_middleware
+from middlewares import db_session_middleware
 
-from dream_api_service.models.booking import Booking
-from dream_api_service.models.portfolio import Portfolio, PortfolioPydantic
-from dream_api_service.models.user import UserPydantic, User
+from models.booking import Booking
+from models.portfolio import Portfolio, PortfolioPydantic
+from models.user import UserPydantic, User
 
 from ..utils import generate_time
 

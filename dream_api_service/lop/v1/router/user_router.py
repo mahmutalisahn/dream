@@ -1,13 +1,13 @@
 # type: ignore
 from fastapi.params import Depends
 
-from dream_api_service.interface.generic_router import GenericRouter
-from dream_api_service.middlewares import db_session_middleware
-from dream_api_service.models.portfolio import PortfolioPydantic
+from interface.generic_router import GenericRouter
+from middlewares import db_session_middleware
+from models.portfolio import PortfolioPydantic
 
-from dream_api_service.models.user import UserPydantic, User
+from models.user import UserPydantic, User
 
-from dream_api_service.lop.v1.service.user_service import UserService
+from lop.v1.service.user_service import UserService
 
 
 class UserRouter(GenericRouter):

@@ -1,5 +1,5 @@
-from dream_api_service.middlewares import db_session_middleware
-from dream_api_service.models.booking import BookingPydantic
+from middlewares import db_session_middleware
+from models.booking import BookingPydantic
 from ..repositories.booking_repository import BookingRepository
 
 class BookingService:

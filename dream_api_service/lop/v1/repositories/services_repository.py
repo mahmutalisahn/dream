@@ -1,6 +1,6 @@
 # type: ignore
-from dream_api_service.middlewares import db_session_middleware
-from dream_api_service.models.service import  Service, ServicePydantic
+from middlewares import db_session_middleware
+from models.service import  Service, ServicePydantic
 
 import uuid
 

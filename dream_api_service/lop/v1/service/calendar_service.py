@@ -1,5 +1,5 @@
-from dream_api_service.middlewares import db_session_middleware
-from dream_api_service.models.calendar import CalendarPydantic, CalendarSaverPydantic
+from middlewares import db_session_middleware
+from models.calendar import CalendarPydantic, CalendarSaverPydantic
 from ..repositories.calendar_repository import  CalendarRepository
 
 class CalendarService:

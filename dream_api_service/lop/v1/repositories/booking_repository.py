@@ -1,8 +1,8 @@
-from dream_api_service.db import sqlalchemy_engine
-from dream_api_service.models.booking import Booking, BookingPydantic
-from dream_api_service.models.booking_security import BookingSecurity
+from db import sqlalchemy_engine
+from models.booking import Booking, BookingPydantic
+from models.booking_security import BookingSecurity
 
-from dream_api_service.middlewares import db_session_middleware
+from middlewares import db_session_middleware
 from .services_repository import ServiceRepository
 import uuid
 from datetime import datetime,timedelta,time

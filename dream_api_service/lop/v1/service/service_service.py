@@ -1,8 +1,8 @@
 # type: ignore
 
-from dream_api_service.middlewares import db_session_middleware
-from dream_api_service.models.service import Service, ServicePydantic
-from dream_api_service.lop.v1.repositories.services_repository import ServiceRepository
+from middlewares import db_session_middleware
+from models.service import Service, ServicePydantic
+from lop.v1.repositories.services_repository import ServiceRepository
 
 class ServiceService:
     def __init__(self) -> None:

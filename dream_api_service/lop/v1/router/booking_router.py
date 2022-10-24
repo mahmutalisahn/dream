@@ -1,11 +1,11 @@
 from typing import Optional
 from fastapi.params import Depends
 
-from dream_api_service.interface.generic_router import GenericRouter
-from dream_api_service.middlewares import db_session_middleware
+from interface.generic_router import GenericRouter
+from middlewares import db_session_middleware
 
-from dream_api_service.models.booking import Booking, BookingPydantic
-from dream_api_service.lop.v1.service.booking_service import BookingService
+from models.booking import Booking, BookingPydantic
+from lop.v1.service.booking_service import BookingService
 
 class BookingRouter(GenericRouter):
 
