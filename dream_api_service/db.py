@@ -10,4 +10,6 @@ port = os.getenv('POSTGRE_PORT')
 dbname = os.getenv('POSTGRE_DBNAME')
 
 connection_url = f"postgresql://{user_name}:{password}@{url}/{dbname}"
+print(connection_url)
 sqlalchemy_engine = create_engine(connection_url)
+print(sqlalchemy_engine)

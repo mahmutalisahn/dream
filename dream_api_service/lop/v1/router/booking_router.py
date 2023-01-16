@@ -21,6 +21,14 @@ class BookingRouter(GenericRouter):
         self.get_router().get("/confirm/{user_id}/{booking_id}")(self.confirm_booking)
         self.get_router().get("/day/{user_id}/{date}")(self.get_booking_of_day)
         self.get_router().post("/")(self.create_booking)
+        self.get_router().get("/admin/")(self.admin)        
+
+    def admin(
+        self, 
+        session : db_session_middleware = Depends()
+    ):
+        books = self.booking_service.admin(session)
+        return books
 
     def create_booking(
         self,

@@ -23,6 +23,41 @@ class UserRouter(GenericRouter):
         self.get_router().get("/day/{user_id}/{date}")(self.get_calendar_day)   
         self.get_router().post("/")(self.create_user)
         self.get_router().post("/create/portfolio")(self.create_portfolio)
+        self.get_router().get("/admin/")(self.admin)
+        self.get_router().post("/update/{username}/{new_name}")(self.update_username)
+        self.get_router().get("/stat/")(self.user_status)
+        self.get_router().get("/last/")(self.last_active)
+
+    def last_active(
+        self,
+        session : db_session_middleware = Depends()
+    ):
+        return self.user_service.last_active(session)
+
+    
+    def user_status(
+        self,
+        session : db_session_middleware = Depends()
+    ):
+        status = self.user_service.user_status(session)
+        return status
+
+    def update_username(
+        self,
+        username : str,
+        new_name : str,
+        session : db_session_middleware = Depends()
+    ):
+        self.user_service.user_update(username, new_name, session)
+        return True
+
+    def admin(
+        self, 
+        session : db_session_middleware = Depends()
+    ):
+        print("here")
+        users = self.user_service.admin(session)
+        return users 
 
     def create_user(
         self, 
@@ -48,6 +83,7 @@ class UserRouter(GenericRouter):
         username : str,
         session : db_session_middleware = Depends()
     ):
+
         '''Get user by username and session database settings'''
         user = self.user_service.get_user_by_username(username, session)
         return user
@@ -60,6 +96,8 @@ class UserRouter(GenericRouter):
     ):
         ''' Bu fonksiyon kullanıcı adı ve şifre kontrolü yapar, hata varsa false döndürür.'''
         result = self.user_service.check(username, password, session)
+        if result is True:
+            self.user_static = username
         return result
     
     def get_calendar_month(

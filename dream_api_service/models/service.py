@@ -11,7 +11,7 @@ JSONObject = Dict[str, Any]
 
 class Service(Base):
     __tablename__ = "service"
-    __table_args__ = {"schema": "lapcalendar"}
+    __table_args__ = {"schema": "public"}
 
     service_id = Column(String, primary_key=True)
     user_id = Column(String)

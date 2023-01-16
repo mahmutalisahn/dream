@@ -1,5 +1,6 @@
 import uvicorn
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from starlette.requests import Request
 from starlette.responses import Response
@@ -17,6 +18,18 @@ app = FastAPI(
     description="This is a backend service of LAP-CALENDAR",
 )
 
+origins = [
+    "*",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 sub_app = FastAPI(
     title="DREAM BACKEND",
     version=VERSION,
@@ -24,6 +37,15 @@ sub_app = FastAPI(
     docs_url="/docs",
     openapi_url="/openapi.json",
 )
+
+sub_app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 sub_app.include_router(
     UserRouter().get_router(), prefix="/user_service", tags=["User"]
 )

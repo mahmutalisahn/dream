@@ -11,7 +11,7 @@ JSONObject = Dict[str, Any]
 class BookingSecurity(Base):
 
     __tablename__ = "booking_security"
-    __table_args__ = {"schema": "lapcalendar"}
+    __table_args__ = {"schema": "public"}
 
     booking_security_id : str = Column(String, primary_key=True)
     booking_id :str = Column(String)

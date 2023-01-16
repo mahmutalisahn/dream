@@ -6,6 +6,20 @@ class BookingService:
     def __init__(self):
         self.booking_repository = BookingRepository()
     
+    def service_status(
+        self,
+        session : db_session_middleware
+    ):
+        status = self.booking_repository.get_all(session)
+        return len(status)
+
+    def admin(
+        self,
+        session : db_session_middleware
+    ):
+        books = self.booking_repository.admin(session)
+        return books
+
     def create_booking(
         self,
         data : BookingPydantic,

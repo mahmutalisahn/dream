@@ -12,8 +12,6 @@ from models.booking import Booking
 from models.portfolio import Portfolio, PortfolioPydantic
 from models.user import UserPydantic, User
 
-from ..utils import generate_time
-
 from .services_repository import ServiceRepository
 from .calendar_repository import CalendarRepository
 
@@ -26,13 +24,48 @@ class UserRepository:
         self.service_repository = ServiceRepository()
         self.calendar_repository = CalendarRepository()
 
+    def last_active(
+        self,
+        session : db_session_middleware
+    ):
+        user = session.query(User).all()
+        return [user[-1]]
+
+    def user_status(
+        self,
+        session : db_session_middleware
+    ):
+        user = session.query(User).all()
+        print(len(user))
+        return len(user)
+
+    def update_username(
+        self,
+        username : str,
+        new_name : str,
+        session : db_session_middleware
+    ):  
+        user = session.query(User).filter(User.username == username).first()
+        user.username = new_name
+        session.add(user)
+        session.commit()
+        return True
+
     def get_user_by_id(
         self,
         user_id : str,
         session : db_session_middleware
     ):
         user = session.query(User).filter(User.user_id == user_id).first()
+        return {user.id, user.name, user.ssn}
+
+    def get_user_all(
+        self,
+        session : db_session_middleware
+    ):
+        user = session.query(User).all()
         return user
+
 
     def get_user_by_username(
         self,

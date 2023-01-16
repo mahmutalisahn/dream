@@ -15,7 +15,7 @@ class ServiceRouter(GenericRouter):
         self.bind_routes()
 
     def bind_routes(self):
-        self.get_router().get("/{user_id}")(self.get_service)
+        self.get_router().get("/{user_id}/{service_id}")(self.get_service)
         self.get_router().put("/{service_id}")(self.update_service)
         self.get_router().post("/")(self.create_service)
         self.get_router().delete("/{user_id}/{service_id}")(self.delete_service)
@@ -36,7 +36,7 @@ class ServiceRouter(GenericRouter):
         session : db_session_middleware = Depends()
     ):
         '''Service çek'''
-        services = self.service_service.get_service(service_id, user_id, session)
+        services = self.service_service.get_service(user_id, service_id, session)
         return services
     
     def update_service(

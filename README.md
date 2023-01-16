@@ -10,9 +10,9 @@
 
 # What's inside ?
 
-    There are different types of endpoints in this project.
+* There are different types of endpoints in this project.
 
-    There different types of sql operation in this project. You can see the different usage of SQLAlchemy.
+* There different types of sql operation in this project. You can see the different usage of SQLAlchemy.
 
 # How to start ?
 
